@@ -1,0 +1,27 @@
+Payment Troubleshooting Knowledge
+
+Payment errors:
+- Payment failures can occur when payment requests cannot be completed successfully.
+- Repeated payment errors may indicate problems with a payment dependency or service.
+- A high number of payment errors within a short time window can indicate an abnormal condition.
+
+Common payment problems:
+- Payment request failures.
+- Payment service unavailable.
+- Dependency failures.
+- Request timeouts.
+- High error rates.
+
+Investigation steps:
+1. Check the payment error rate.
+2. Check whether payment requests are timing out.
+3. Check dependent payment services.
+4. Check whether failures are affecting multiple requests.
+5. Review recent payment service logs.
+
+Recommended actions:
+- Investigate the failing payment requests.
+- Check payment service availability.
+- Check dependent services.
+- Review recent error logs.
+- Monitor the payment error rate after applying a fix.

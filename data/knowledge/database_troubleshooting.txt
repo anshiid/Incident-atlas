@@ -1,0 +1,45 @@
+DATABASE TROUBLESHOOTING GUIDE
+
+Database connection failures can occur when an application cannot establish a connection with the database.
+
+Common causes include:
+
+1. Database server is unavailable.
+2. Maximum database connections have been reached.
+3. Application connection pool is exhausted.
+4. Network connectivity problems.
+5. Incorrect database credentials.
+6. Database server is overloaded.
+
+CONNECTION POOL EXHAUSTION
+
+Connection pool exhaustion occurs when all available database connections are being used.
+
+Common symptoms include:
+
+- Database connection timeout errors.
+- Connection pool exhausted warnings.
+- Requests waiting for database connections.
+- Multiple services experiencing database-related failures.
+
+INVESTIGATION STEPS
+
+When connection pool exhaustion is suspected:
+
+1. Check whether the database server is running.
+2. Check the number of active database connections.
+3. Check the maximum allowed database connections.
+4. Review the application's connection pool configuration.
+5. Check whether connections are being properly released.
+6. Review recent application deployments.
+7. Check database CPU and memory usage.
+
+RECOMMENDED ACTIONS
+
+If the database is healthy but the connection pool is exhausted:
+
+- Review the connection pool size.
+- Check for connections that are not being released.
+- Review long-running database queries.
+- Increase the connection limit only if appropriate.
+- Restart the affected application service if necessary.
