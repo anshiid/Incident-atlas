@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Problem Detector</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="app-header">
+            <div class="app-icon">🤖</div>
+
+            <div>
+                <h1>AI Incident Investigator</h1>
+                <p class="subtitle">
+                    Detect anomalies and investigate technical problems using AI.
+                </p>
+            </div>
+        </div>
+
+        <div class="upload-section">
+    <label for="logFile">Upload Log File:</label>
+    <input type="file" id="logFile" accept=".log,.txt,.csv">
+
+    <button id="uploadBtn">
+        📁 Analyze Log File
+    </button>
+
+    <p id="uploadStatus"></p>
+</div>
+
+        <label for="question">Describe your problem:</label>
+
+        <textarea
+            id="question"
+            placeholder="Example: Why are payment failures happening?"
+        ></textarea>
+
+        <button id="investigateBtn">
+            Investigate
+        </button>
+
+        <div id="loading">
+            Investigating your problem...
+        </div>
+
+        <div id="result">
+
+    <div class="result-header">
+        <h2>🤖 AI Investigation</h2>
+        <span class="status">Analysis Complete</span>
+    </div>
+
+    <div class="answer-box">
+        <p id="answer"></p>
+    </div>
+
+    <div class="score-box">
+        <strong>Knowledge Match Score</strong>
+        <span id="score"></span>
+    </div>
+
+</div>
+
+        <div class="dashboard">
+
+    <div class="dashboard-card">
+        <h3 id="totalAnomalies">0</h3>
+        <p>Total Anomalies</p>
+    </div>
+
+    <div class="dashboard-card">
+        <h3 id="criticalCount">0</h3>
+        <p>Critical</p>
+    </div>
+
+    <div class="dashboard-card">
+        <h3 id="highCount">0</h3>
+        <p>High</p>
+    </div>
+
+    <div class="dashboard-card">
+        <h3 id="normalCount">0</h3>
+        <p>Normal</p>
+    </div>
+
+</div>
+
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
