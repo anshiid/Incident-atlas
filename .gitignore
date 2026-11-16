@@ -26,3 +26,13 @@ build/
 !.vscode/settings.json
 .DS_Store
 Thumbs.db
+
+# Python testing and tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
