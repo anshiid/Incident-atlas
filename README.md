@@ -1,10 +1,10 @@
-# AI Incident Investigator
+# Incident Atlas
 
-An AI-powered system that detects unusual system activity and investigates technical problems using Machine Learning, RAG, Semantic Search, and a local Large Language Model.
+Incident Atlas detects unusual system activity and investigates technical problems using machine learning, retrieval-augmented generation (RAG), semantic search, and a local large language model.
 
 ## Project Overview
 
-The AI Project Problem Detector combines Machine Learning and Generative AI to identify and investigate technical issues.
+Incident Atlas combines machine learning and generative AI to identify and investigate technical issues.
 
 The system can:
 

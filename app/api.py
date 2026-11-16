@@ -1,9 +1,13 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from app.rag import answer_question
-from app.ml_model import detect_anomalies, get_affected_service
+from app.ml_model import (
+    UPLOADED_LOG_PATH,
+    detect_anomalies,
+    get_uploaded_log_context
+)
 
 app = FastAPI()
 
@@ -25,10 +29,24 @@ def home():
     return {"message": "AI Problem Detector API is running"}
 
 
+
 @app.post("/investigate")
 def investigate(data: Question):
+    import os
 
-    answer, score = answer_question(data.question)
+    log_path = UPLOADED_LOG_PATH
+
+    # Require a log file before investigating
+    if not os.path.exists(log_path) or os.path.getsize(log_path) == 0:
+        raise HTTPException(
+            status_code=400,
+            detail="Please upload a log file before starting an investigation."
+        )
+
+    answer, score = answer_question(
+        data.question,
+        log_context=get_uploaded_log_context(UPLOADED_LOG_PATH)
+    )
 
     return {
         "question": data.question,
@@ -36,48 +54,59 @@ def investigate(data: Question):
         "answer": answer
     }
 
+
 @app.get("/anomalies")
 def get_anomalies():
-    data = detect_anomalies()
+    import os
+
+    log_path = UPLOADED_LOG_PATH
+
+    # No uploaded log file exists yet
+    if not os.path.exists(log_path):
+        return []
+
+    # Empty uploaded file
+    if os.path.getsize(log_path) == 0:
+        return []
+
+    try:
+        data = detect_anomalies()
+    except ValueError as error:
+        raise HTTPException(status_code=400, detail=str(error)) from error
 
     records = data.to_dict(orient="records")
 
-    service = get_affected_service()
-
     for item in records:
-
         error_count = item["error_count"]
         warning_count = item["warning_count"]
 
         if error_count >= 20:
             severity = "CRITICAL"
-
         elif error_count >= 10:
             severity = "HIGH"
-
         elif error_count >= 5:
             severity = "MEDIUM"
-
         elif error_count > 0 or warning_count >= 3:
             severity = "LOW"
-
         else:
             severity = "NORMAL"
 
         item["severity"] = severity
-        item["affected_service"] = service
-
-        # Convert model score to a normal Python float
         item["score"] = round(float(item["score"]), 3)
 
     return records
 
 @app.post("/upload-log")
 async def upload_log(file: UploadFile = File(...)):
-
     contents = await file.read()
 
-    with open("data/logs/uploaded.log", "wb") as output_file:
+    if not contents.strip():
+        raise HTTPException(
+            status_code=400,
+            detail="The uploaded log file is empty."
+        )
+
+    with open(UPLOADED_LOG_PATH, "wb") as output_file:
         output_file.write(contents)
 
     return {

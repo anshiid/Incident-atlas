@@ -3,99 +3,321 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#090c14">
+    <title>Incident Atlas</title>
 
-    <title>AI Problem Detector</title>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <a class="brand" href="#overview" aria-label="Incident Atlas home">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 40 40" fill="none">
+                        <path d="M20 3.5 34.3 11.7v16.6L20 36.5 5.7 28.3V11.7L20 3.5Z" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M20 10v10l8.4 4.8M20 20l-8.4 4.8M20 20l8.4-4.8" stroke="currentColor" stroke-width="1.5"/>
+                        <circle cx="20" cy="20" r="3" fill="currentColor"/>
+                    </svg>
+                </span>
+                <span class="brand-copy">
+                    <strong>Incident Atlas</strong>
+                    <small>AI OPERATIONS</small>
+                </span>
+            </a>
 
-    <div class="container">
+            <p class="nav-caption">WORKSPACE</p>
+            <nav class="primary-nav" aria-label="Dashboard sections">
+                <a class="nav-link active" href="#overview" aria-current="page">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="5" rx="2"/><rect x="13" y="10" width="8" height="11" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/></svg>
+                    <span>Overview</span>
+                </a>
+                <a class="nav-link" href="#log-dashboard">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3.75h9l5 5v11.5A1.75 1.75 0 0 1 17.25 22h-12A1.75 1.75 0 0 1 3.5 20.25V5.5A1.75 1.75 0 0 1 5.25 3.75Z"/><path d="M13.5 4v5h5M7.5 13h8M7.5 17h8"/></svg>
+                    <span>Log analysis</span>
+                </a>
+                <a class="nav-link" href="#anomaly-dashboard">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.5 8.2 12l3.6 3.5L20.5 6"/><path d="M15.5 6h5v5"/></svg>
+                    <span>Anomaly dashboard</span>
+                    <span class="nav-count" id="navAnomalyCount">0</span>
+                </a>
+                <a class="nav-link" href="#investigation-dashboard">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.5 4.5M8 10.8h5.5M10.75 8v5.5"/></svg>
+                    <span>Investigation</span>
+                </a>
+            </nav>
 
-        <div class="app-header">
-            <div class="app-icon">🤖</div>
-
-            <div>
-                <h1>AI Incident Investigator</h1>
-                <p class="subtitle">
-                    Detect anomalies and investigate technical problems using AI.
-                </p>
+            <div class="sidebar-bottom">
+                <div class="sidebar-note">
+                    <span class="pulse-dot" aria-hidden="true"></span>
+                    <span>Ready for a new log</span>
+                </div>
+                <div class="workspace-id">
+                    <span class="workspace-avatar" aria-hidden="true">IA</span>
+                    <span>
+                        <strong>Investigation workspace</strong>
+                        <small>Local analysis console</small>
+                    </span>
+                </div>
             </div>
+        </aside>
+
+        <div class="main-shell">
+            <header class="topbar">
+                <div class="breadcrumbs">
+                    <span>Workspace</span>
+                    <span class="breadcrumb-divider">/</span>
+                    <strong>Incident overview</strong>
+                </div>
+                <div class="topbar-meta">
+                    <span class="console-label"><span class="pulse-dot" aria-hidden="true"></span> INVESTIGATION CONSOLE</span>
+                    <span class="topbar-separator" aria-hidden="true"></span>
+                    <time id="lastUpdated">Awaiting log data</time>
+                </div>
+            </header>
+
+            <main class="content">
+                <section class="hero" id="overview">
+                    <div class="hero-copy">
+                        <p class="eyebrow"><span class="eyebrow-line"></span> INCIDENT INTELLIGENCE / 01</p>
+                        <h1>Find the signal<br><span>in the noise.</span></h1>
+                        <p class="hero-description">
+                            Turn raw system logs into a clear incident picture. Upload a file, inspect anomaly windows, and investigate with AI.
+                        </p>
+                    </div>
+                    <a class="hero-link" href="#log-dashboard">
+                        <span class="hero-link-icon" aria-hidden="true">+</span>
+                        Start an analysis
+                        <span aria-hidden="true">&rarr;</span>
+                    </a>
+                    <div class="hero-orbit" aria-hidden="true">
+                        <span class="orbit orbit-one"></span>
+                        <span class="orbit orbit-two"></span>
+                        <span class="orbit-core"></span>
+                        <span class="orbit-node"></span>
+                    </div>
+                </section>
+
+                <section class="metric-grid" aria-label="Incident overview metrics">
+                    <article class="metric-card metric-featured">
+                        <div class="metric-heading">
+                            <span>TIME WINDOWS</span>
+                            <span class="metric-icon icon-cyan" aria-hidden="true">01</span>
+                        </div>
+                        <p class="metric-value" id="windowCount">0</p>
+                        <p class="metric-caption">Intervals analyzed</p>
+                        <div class="metric-foot"><span class="metric-foot-dot cyan"></span> Parsed by minute</div>
+                    </article>
+                    <article class="metric-card">
+                        <div class="metric-heading">
+                            <span>ANOMALIES</span>
+                            <span class="metric-icon icon-violet" aria-hidden="true">02</span>
+                        </div>
+                        <p class="metric-value" id="totalAnomalies">0</p>
+                        <p class="metric-caption">Unusual activity windows</p>
+                        <div class="metric-foot"><span class="metric-foot-dot violet"></span> Isolation Forest</div>
+                    </article>
+                    <article class="metric-card">
+                        <div class="metric-heading">
+                            <span>CRITICAL WINDOWS</span>
+                            <span class="metric-icon icon-red" aria-hidden="true">03</span>
+                        </div>
+                        <p class="metric-value" id="criticalCount">0</p>
+                        <p class="metric-caption">Highest error volume</p>
+                        <div class="metric-foot"><span class="metric-foot-dot red"></span> Requires attention</div>
+                    </article>
+                    <article class="metric-card">
+                        <div class="metric-heading">
+                            <span>NORMAL WINDOWS</span>
+                            <span class="metric-icon icon-green" aria-hidden="true">04</span>
+                        </div>
+                        <p class="metric-value" id="normalCount">0</p>
+                        <p class="metric-caption">Within expected range</p>
+                        <div class="metric-foot"><span class="metric-foot-dot green"></span> Baseline behavior</div>
+                    </article>
+                </section>
+
+                <section class="workbench-grid" aria-label="Log and investigation workbench">
+                    <article class="panel upload-panel" id="log-dashboard">
+                        <div class="panel-heading">
+                            <div>
+                                <p class="panel-kicker">01 / INGESTION</p>
+                                <h2>Analyze a log file</h2>
+                            </div>
+                            <span class="panel-index" aria-hidden="true">01</span>
+                        </div>
+
+                        <label class="dropzone" id="dropZone" for="logFile">
+                            <input type="file" id="logFile" accept=".log,.txt,.csv">
+                            <span class="dropzone-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5"/><path d="M4.5 14.5v4A1.5 1.5 0 0 0 6 20h12a1.5 1.5 0 0 0 1.5-1.5v-4"/></svg>
+                            </span>
+                            <span class="dropzone-title">Drop your log file here</span>
+                            <span class="dropzone-subtitle">or <strong>browse files</strong> to get started</span>
+                            <span class="dropzone-formats">LOG / TXT / CSV &middot; One file at a time</span>
+                        </label>
+
+                        <div class="selected-file" id="selectedFile" hidden>
+                            <span class="file-icon" aria-hidden="true">LOG</span>
+                            <span class="file-details">
+                                <strong id="selectedFileName">No file selected</strong>
+                                <small id="selectedFileSize"></small>
+                            </span>
+                            <span class="file-ready" aria-hidden="true"></span>
+                        </div>
+
+                        <button type="button" id="uploadBtn" class="button-primary upload-action">
+                            <span>Analyze log file</span>
+                            <span aria-hidden="true">&rarr;</span>
+                        </button>
+                        <p id="uploadStatus" class="upload-status" role="status" aria-live="polite"></p>
+
+                        <div class="pipeline">
+                            <div class="pipeline-heading">
+                                <span>ANALYSIS PIPELINE</span>
+                                <span>3 STEPS</span>
+                            </div>
+                            <div class="pipeline-steps">
+                                <span><i>01</i> Parse</span>
+                                <span class="pipeline-arrow" aria-hidden="true">&rarr;</span>
+                                <span><i>02</i> Detect</span>
+                                <span class="pipeline-arrow" aria-hidden="true">&rarr;</span>
+                                <span><i>03</i> Investigate</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="panel investigator-panel" id="investigation-dashboard">
+                        <div class="panel-heading">
+                            <div>
+                                <p class="panel-kicker">02 / AI INVESTIGATION</p>
+                                <h2>Ask about the incident</h2>
+                            </div>
+                            <span class="panel-index" aria-hidden="true">02</span>
+                        </div>
+                        <p class="panel-description">Your question is analyzed alongside the latest uploaded log evidence.</p>
+
+                        <div class="prompt-shortcuts" aria-label="Suggested questions">
+                            <button type="button" class="prompt-chip" data-prompt="What is the most likely cause of the errors in this log?">Explain the errors</button>
+                            <button type="button" class="prompt-chip" data-prompt="Which service is most affected, and what should I check first?">Find the affected service</button>
+                        </div>
+
+                        <label class="sr-only" for="question">Your investigation question</label>
+                        <textarea
+                            id="question"
+                            placeholder="Ask a question about the uploaded log..."
+                        ></textarea>
+                        <button type="button" id="investigateBtn" class="button-primary investigation-action">
+                            <span class="button-spark" aria-hidden="true">&#10022;</span>
+                            <span>Run investigation</span>
+                            <span class="button-arrow" aria-hidden="true">&rarr;</span>
+                        </button>
+
+                        <div id="loading" class="loading-state" role="status" aria-live="polite">
+                            <span class="loading-orb" aria-hidden="true"></span>
+                            <span>Connecting log evidence to technical knowledge...</span>
+                        </div>
+
+                        <section id="result" class="result-panel" aria-label="Investigation findings" aria-live="polite">
+                            <div class="result-heading">
+                                <div>
+                                    <p class="panel-kicker">AI FINDINGS</p>
+                                    <h3>Investigation report</h3>
+                                </div>
+                                <span class="result-status" id="resultStatus">COMPLETE</span>
+                            </div>
+                            <p id="answer" class="answer-content"></p>
+                            <div class="score-card">
+                                <div class="score-heading">
+                                    <span>Knowledge match</span>
+                                    <strong id="score">N/A</strong>
+                                </div>
+                                <div class="score-meter" role="progressbar" aria-label="Knowledge match score" aria-valuemin="0" aria-valuemax="100">
+                                    <span id="scoreFill"></span>
+                                </div>
+                            </div>
+                        </section>
+                    </article>
+                </section>
+
+                <section class="panel anomaly-dashboard" id="anomaly-dashboard">
+                    <div class="panel-heading anomaly-heading">
+                        <div>
+                            <p class="panel-kicker">03 / SIGNAL MONITOR</p>
+                            <h2>Anomaly dashboard</h2>
+                            <p class="panel-description">Minute-by-minute activity and severity across the uploaded log.</p>
+                        </div>
+                        <span class="monitor-badge"><span class="pulse-dot" aria-hidden="true"></span> MODEL ANALYSIS</span>
+                    </div>
+
+                    <div class="anomaly-overview">
+                        <article class="chart-card">
+                            <div class="chart-heading">
+                                <div>
+                                    <h3>Activity timeline</h3>
+                                    <p>Error volume in each detected time window</p>
+                                </div>
+                                <span class="chart-units">ERRORS / MIN</span>
+                            </div>
+                            <div class="timeline-chart" id="timelineChart" aria-label="Error activity timeline">
+                                <p class="chart-empty">Upload a log to see activity by minute.</p>
+                            </div>
+                            <div class="chart-axis"><span>Earlier</span><span>Most recent</span></div>
+                        </article>
+
+                        <article class="severity-card">
+                            <div class="chart-heading">
+                                <div>
+                                    <h3>Severity mix</h3>
+                                    <p>Windows grouped by error volume</p>
+                                </div>
+                                <span class="severity-total" id="severityWindowCount">0</span>
+                            </div>
+                            <div class="severity-track" id="severityTrack" aria-label="Severity distribution">
+                                <span class="severity-segment critical-segment" id="barCritical"></span>
+                                <span class="severity-segment high-segment" id="barHigh"></span>
+                                <span class="severity-segment medium-segment" id="barMedium"></span>
+                                <span class="severity-segment low-segment" id="barLow"></span>
+                                <span class="severity-segment normal-segment" id="barNormal"></span>
+                            </div>
+                            <div class="severity-list">
+                                <div><i class="legend-dot critical-dot"></i><span>Critical</span><strong id="criticalLegend">0</strong></div>
+                                <div><i class="legend-dot high-dot"></i><span>High</span><strong id="highCount">0</strong></div>
+                                <div><i class="legend-dot medium-dot"></i><span>Medium</span><strong id="mediumCount">0</strong></div>
+                                <div><i class="legend-dot low-dot"></i><span>Low</span><strong id="lowCount">0</strong></div>
+                                <div><i class="legend-dot normal-dot"></i><span>Normal</span><strong id="normalLegend">0</strong></div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="anomaly-feed-heading">
+                        <div>
+                            <h3>Detected anomaly windows</h3>
+                            <p>Only windows flagged as unusual are listed below.</p>
+                        </div>
+                        <span class="findings-count" id="anomalyCountBadge">0 findings</span>
+                    </div>
+                    <div id="anomaly-section" class="anomaly-grid">
+                        <div class="empty-state">
+                            <span class="empty-orbit" aria-hidden="true"></span>
+                            <strong>No log analysis yet</strong>
+                            <p>Upload a log file to populate this dashboard.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <footer class="footer">
+                    <span>INCIDENT ATLAS <span class="footer-divider">/</span> AI-ASSISTED LOG ANALYSIS</span>
+                    <a href="#overview">Back to top &uarr;</a>
+                </footer>
+            </main>
         </div>
-
-        <div class="upload-section">
-    <label for="logFile">Upload Log File:</label>
-    <input type="file" id="logFile" accept=".log,.txt,.csv">
-
-    <button id="uploadBtn">
-        📁 Analyze Log File
-    </button>
-
-    <p id="uploadStatus"></p>
-</div>
-
-        <label for="question">Describe your problem:</label>
-
-        <textarea
-            id="question"
-            placeholder="Example: Why are payment failures happening?"
-        ></textarea>
-
-        <button id="investigateBtn">
-            Investigate
-        </button>
-
-        <div id="loading">
-            Investigating your problem...
-        </div>
-
-        <div id="result">
-
-    <div class="result-header">
-        <h2>🤖 AI Investigation</h2>
-        <span class="status">Analysis Complete</span>
     </div>
 
-    <div class="answer-box">
-        <p id="answer"></p>
-    </div>
-
-    <div class="score-box">
-        <strong>Knowledge Match Score</strong>
-        <span id="score"></span>
-    </div>
-
-</div>
-
-        <div class="dashboard">
-
-    <div class="dashboard-card">
-        <h3 id="totalAnomalies">0</h3>
-        <p>Total Anomalies</p>
-    </div>
-
-    <div class="dashboard-card">
-        <h3 id="criticalCount">0</h3>
-        <p>Critical</p>
-    </div>
-
-    <div class="dashboard-card">
-        <h3 id="highCount">0</h3>
-        <p>High</p>
-    </div>
-
-    <div class="dashboard-card">
-        <h3 id="normalCount">0</h3>
-        <p>Normal</p>
-    </div>
-
-</div>
-
-
-    </div>
-
-    <script src="script.js"></script>
-
+    <script src="script.js?v=3"></script>
+    <script src="insights.js"></script>
 </body>
 </html>
